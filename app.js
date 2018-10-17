@@ -95,7 +95,7 @@ app.post("/users", (req, res) => {
   User.create(req.body)
     .then((user) => {
       // console.log(user)
-      res.redirect("/users")
+      res.redirect(`/users/${user._id}`)
     }).catch((err) => {
       console.log(err.message)
     })
@@ -103,7 +103,12 @@ app.post("/users", (req, res) => {
 
 // HTTP Action: Show
 app.get("/users/:id", (req, res) => {
-  res.send("I'm a user! :D")
+  User.findById(req.params.id)
+    .then(user => {
+      res.render("users-show", { user: user })
+    }).catch((err) => {
+      console.log(err.message)
+    })
 })
 
 
