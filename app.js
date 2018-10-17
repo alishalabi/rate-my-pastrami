@@ -1,3 +1,4 @@
+// Middleware
 const express = require("express")
 const http = require("http")
 const exphbs = require("express-handlebars")
@@ -5,17 +6,17 @@ const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
 const yelp = require("yelp-fusion")
 const client = yelp.client("YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx")
+
+// Starting up express
 const app = express()
+
 
 // Installing MongoDB:
 const mongoose = require("mongoose")
 mongoose.connect("mongodb://localhost/rate-my-pastrami")
 
-// User model
-const User = mongoose.model("User", {
-  name: String,
-  bio: String
-})
+
+
 
 
 // var yelp = new Yelp({
@@ -29,6 +30,9 @@ app.engine("handlebars", exphbs({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
+
+//Controllers
+const users = require("./controllers/users")(app)
 
 // // Welcome image
 // app.get("/", (req, res) =>{
@@ -81,82 +85,6 @@ app.get("/results/:city", (req,res) => {
   var city = req.params.city;
   res.render("results", {city: city})
 })
-
-
-// CRUDing Users Resource
-
-// Mock Array for testing
-// let users = [
-//   { name: "Albert", bio: "Loves Pastrami" },
-//   { name: "Barney", bio: "REALLY loves Pastrami" }
-// ]
-
-// HTTP Action: Index
-app.get("/users", (req, res) => {
-  User.find()
-    .then(users => {
-      res.render("users-index", { users, users})
-    })
-    .catch(err => {
-      console.log(err)
-    })
-})
-
-// HTTP Action: New
-app.get("/users/new", (req, res) => {
-  res.render("users-new", {})
-})
-
-// HTTP Action: Create
-app.post("/users", (req, res) => {
-  User.create(req.body)
-    .then((user) => {
-      // console.log(user)
-      res.redirect(`/users/${user._id}`)
-    }).catch((err) => {
-      console.log(err.message)
-    })
-})
-
-// HTTP Action: Show
-app.get("/users/:id", (req, res) => {
-  User.findById(req.params.id)
-    .then(user => {
-      res.render("users-show", { user: user })
-    }).catch((err) => {
-      console.log(err.message)
-    })
-})
-
-// HTTP Action: Edit
-app.get("/users/:id/edit", (req, res) => {
-  User.findById(req.params.id, function(err, user) {
-    res.render("users-edit", { user: user })
-  })
-})
-
-// HTTP Action: Update
-app.put("/users/:id", (req, res) => {
-  User.findByIdAndUpdate(req.params.id, req.body)
-    .then(user => {
-      res.redirect(`/users/${user._id}`)
-    })
-    .catch(err => {
-      console.log(err.message)
-    })
-})
-
-// HTTP Action: Delete
-app.delete("/users/:id", function(req, res) {
-  console.log("DELETE user")
-  User.findByIdAndRemove(req.params.id)
-    .then((user) => {
-      res.redirect("/users")
-    }).catch((err) => {
-      console.log(err.message)
-    })
-})
-
 
 app.listen(3000, (req, res) => {
   console.log("Listening at port 3000!")
