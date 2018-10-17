@@ -3,6 +3,7 @@ const app = express()
 const http = require("http")
 const exphbs = require("express-handlebars")
 const Yelp = require("yelp")
+const bodyParser = require("body-parser")
 
 // Installing MongoDB:
 const mongoose = require("mongoose")
@@ -14,6 +15,7 @@ const User = mongoose.model("User", {
   bio: String
 })
 
+
 // var yelp = new Yelp({
 //   consumer_key: "YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx"
 //   consumer_secret: "pkClYmkwqzFdCbvKB6Y0nA"
@@ -23,6 +25,7 @@ const User = mongoose.model("User", {
 
 app.engine("handlebars", exphbs({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // // Welcome image
 // app.get("/", (req, res) =>{
@@ -82,6 +85,26 @@ app.get("/users", (req, res) => {
     })
 })
 
+// HTTP Action: New
+app.get("/users/new", (req, res) => {
+  res.render("users-new", {})
+})
+
+// HTTP Action: Create
+app.post("/users", (req, res) => {
+  User.create(req.body)
+    .then((user) => {
+      // console.log(user)
+      res.redirect("/users")
+    }).catch((err) => {
+      console.log(err.message)
+    })
+})
+
+// HTTP Action: Show
+app.get("/users/:id", (req, res) => {
+  res.send("I'm a user! :D")
+})
 
 
 app.listen(3000, (req, res) => {
