@@ -1,5 +1,6 @@
 <h1>Results for {{city}}</h1>
 
-{{#each restaurants}}
-  <h4>"{{this.name}}"</h4>
+{{#each businesses}}
+  <h3>{{this.name}}</h3>
+  <h5><a href="{{this.image_url}}">Sandwich Money Shot</a></h5>
 {{/each}}

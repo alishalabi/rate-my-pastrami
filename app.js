@@ -1,9 +1,10 @@
 const express = require("express")
 const http = require("http")
 const exphbs = require("express-handlebars")
-const Yelp = require("yelp")
 const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
+const yelp = require("yelp-fusion")
+const client = yelp.client("YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx")
 const app = express()
 
 // Installing MongoDB:
@@ -36,7 +37,21 @@ app.use(methodOverride("_method"))
 // })
 
 app.get("/", (req, res) => {
+  var city = req.query.city;
+  if (city !== undefined) {
+    client.search({
+    term:'Pastrami',
+    location: city
+  }).then(response => {
+    var biz = response.jsonBody.businesses;
+    res.render("results", {businesses: biz, city: city})
+  }).catch(e => {
+    console.log(e);
+  });
+}
+else {
   res.render("home")
+}
 })
 // app.get("/", (req, res) => {
 //   console.log(req.query.term)
@@ -127,6 +142,17 @@ app.put("/users/:id", (req, res) => {
       res.redirect(`/users/${user._id}`)
     })
     .catch(err => {
+      console.log(err.message)
+    })
+})
+
+// HTTP Action: Delete
+app.delete("/users/:id", function(req, res) {
+  console.log("DELETE user")
+  User.findByIdAndRemove(req.params.id)
+    .then((user) => {
+      res.redirect("/users")
+    }).catch((err) => {
       console.log(err.message)
     })
 })

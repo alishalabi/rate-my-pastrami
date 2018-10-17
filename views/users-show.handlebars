@@ -3,4 +3,8 @@
 
 <p><a href="/users/{{user._id}}/edit">Edit User</a></p>
 
+<p><form method="POST" action="/users/{{user._id}}?_method=DELETE">
+  <button type="submit">Delete User</button>
+</form></p>
+
 <a href="/users">Back to All User</a>
