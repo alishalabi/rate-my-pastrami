@@ -4,6 +4,16 @@ const http = require("http")
 const exphbs = require("express-handlebars")
 const Yelp = require("yelp")
 
+// Installing MongoDB:
+const mongoose = require("mongoose")
+mongoose.connect("mongodb://localhost/rate-my-pastrami")
+
+// User model
+const User = mongoose.model("User", {
+  name: String,
+  bio: String
+})
+
 // var yelp = new Yelp({
 //   consumer_key: "YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx"
 //   consumer_secret: "pkClYmkwqzFdCbvKB6Y0nA"
@@ -56,14 +66,20 @@ app.get("/results/:city", (req,res) => {
 // CRUDing Users Resource
 
 // Mock Array for testing
-let users = [
-  { name: "Albert", bio: "Loves Pastrami" },
-  { name: "Barney", bio: "REALLY loves Pastrami" }
-]
+// let users = [
+//   { name: "Albert", bio: "Loves Pastrami" },
+//   { name: "Barney", bio: "REALLY loves Pastrami" }
+// ]
 
 // HTTP Action: Index
 app.get("/users", (req, res) => {
-  res.render("users-index", { users, users})
+  User.find()
+    .then(users => {
+      res.render("users-index", { users, users})
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 
