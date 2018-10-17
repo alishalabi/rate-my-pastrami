@@ -53,6 +53,21 @@ app.get("/results/:city", (req,res) => {
 })
 
 
+// CRUDing Users Resource
+
+// Mock Array for testing
+let users = [
+  { name: "Albert", bio: "Loves Pastrami" },
+  { name: "Barney", bio: "REALLY loves Pastrami" }
+]
+
+// HTTP Action: Index
+app.get("/users", (req, res) => {
+  res.render("users-index", { users, users})
+})
+
+
+
 app.listen(3000, (req, res) => {
   console.log("Listening at port 3000!")
 })
