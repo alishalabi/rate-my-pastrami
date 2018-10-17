@@ -1,0 +1,34 @@
+Ratemypastrami.com
+Yelp for Pastrami
+
+CRUD users
+- index
+- new
+- create
+- show
+- edit
+- update
+- delete
+
+Add navbar
+
+Connect HTTP and Express
+Connect API
+
+
+v0-------------
+
+
+
+
+v1-------------
+
+v2-------------
+
+CRUD restaurants
+CRUD reviews
+Pull restaurants from API
+Search by Menu
+Like sandwiched (sandwich)
+Follow restaurants
+See detailed information about
