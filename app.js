@@ -1,9 +1,10 @@
 const express = require("express")
-const app = express()
 const http = require("http")
 const exphbs = require("express-handlebars")
 const Yelp = require("yelp")
 const bodyParser = require("body-parser")
+const methodOverride = require("method-override")
+const app = express()
 
 // Installing MongoDB:
 const mongoose = require("mongoose")
@@ -26,6 +27,7 @@ const User = mongoose.model("User", {
 app.engine("handlebars", exphbs({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride("_method"))
 
 // // Welcome image
 // app.get("/", (req, res) =>{
@@ -107,6 +109,24 @@ app.get("/users/:id", (req, res) => {
     .then(user => {
       res.render("users-show", { user: user })
     }).catch((err) => {
+      console.log(err.message)
+    })
+})
+
+// HTTP Action: Edit
+app.get("/users/:id/edit", (req, res) => {
+  User.findById(req.params.id, function(err, user) {
+    res.render("users-edit", { user: user })
+  })
+})
+
+// HTTP Action: Update
+app.put("/users/:id", (req, res) => {
+  User.findByIdAndUpdate(req.params.id, req.body)
+    .then(user => {
+      res.redirect(`/users/${user._id}`)
+    })
+    .catch(err => {
       console.log(err.message)
     })
 })
