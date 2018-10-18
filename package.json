@@ -1,6 +1,9 @@
 {
   "name": "rate-my-pastrami",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.9.4"
+    },
   "description": "",
   "main": "app.js",
   "dependencies": {
@@ -12,6 +15,7 @@
     "mongoose": "^5.3.4",
     "yelp": "^1.0.2",
     "yelp-fusion": "^2.2.1"
+
   },
   "devDependencies": {},
   "scripts": {
