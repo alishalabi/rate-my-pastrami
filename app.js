@@ -13,7 +13,7 @@ const app = express()
 
 // Installing MongoDB:
 const mongoose = require("mongoose")
-mongoose.connect("mongodb://localhost/rate-my-pastrami")
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/rate-my-pastrami")
 
 
 
