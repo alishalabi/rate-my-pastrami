@@ -86,6 +86,6 @@ app.get("/results/:city", (req,res) => {
   res.render("results", {city: city})
 })
 
-app.listen(3000, (req, res) => {
+app.listen(process.env.PORT || 3000, (req, res) => {
   console.log("Listening at port 3000!")
 })
