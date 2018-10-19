@@ -1,7 +1,16 @@
 <h1>Results for {{city}}</h1>
 
 {{#each businesses}}
-  <h3>{{this.name}}</h3>
+  <div class="card" margin="100" style="width: 18rem;">
+    <img class="card-img-top" src="{{this.image_url}}" alt="Card image cap" width="150" height="150">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
+        <p class="card-text">Rating: {{this.rating}}</p>
+        <p class="card-text">Address: {{this.location.address1}}</p>
+        <a href="" class="btn btn-primary">View Sandwich</a>
+      </div>
+  </div>
+  <!-- <h3>{{this.name}}</h3>
   <h5>Rating: {{this.rating}}</h5>
-  <h5><a href="{{this.image_url}}">Sandwich Money Shot</a></h5>
+  <h5><a href="{{this.image_url}}">Sandwich Money Shot</a></h5> -->
 {{/each}}
