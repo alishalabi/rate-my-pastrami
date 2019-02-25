@@ -18,8 +18,8 @@
     {{#each businesses}}
       <div class="col-sm-4">
         <div class="card">
-          <img class="card-img-top" src="{{this.image_url}}" alt="Card image cap">
-          <div class="card-body">
+          <img class="card-img-top img-responsive" src="{{this.image_url}}" alt="Card image cap" />
+          <div class="card-body d-flex align-items-stretch">
             <h5 class="card-title">{{this.name}}</h5>
             <p class="card-text">Rating: {{this.rating}}</p>
             <p class="card-text"><small class="text-muted">Address: {{this.location.address1}}</small></p>
