@@ -1,5 +1,12 @@
 <h1>All Users</h1>
 
+<div class="user-search">
+  <form action="/users/search">
+    Search: <input type="text" name="term" />
+    <input type="submit"/>
+  </form>
+</div>
+
 <a href="/users/new">New User</a>
 
 <div class="row">
@@ -9,4 +16,14 @@
       <h4>{{this.bio}}</h4>
     </div>
   {{/each}}
+</div>
+
+<div class="page-index" style="display:inline-block;margin-top:200px;">
+
+  <a href=`?page=${currentPage - 1}`>Previous</a>
+  {{#times pagesCount}}
+
+    <a href="/?page={{this}}">{{this}}</a>
+  {{/times}}
+  <a href=`?page=${parseInt(currentPage) + 1}`>Next</a>
 </div>

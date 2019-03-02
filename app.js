@@ -26,7 +26,21 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/rate-my-pastram
 //   // token_secret:
 // })
 
-app.engine("handlebars", exphbs({defaultLayout: "main"}))
+const timesHelper = function(n, block) {
+                         let accum = "";
+                         for(var i = 0; i < n; ++i)
+                           accum += block.fn(i);
+                         return accum;
+                       };
+
+const hbs = exphbs.create({
+  defaultLayout: "main",
+  helpers: {
+    times: timesHelper
+  }
+})
+
+app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))

@@ -12,13 +12,24 @@ module.exports = function (app) {
 
   // HTTP Action: Index
   app.get("/users", (req, res) => {
-    User.find()
-      .then(users => {
-        res.render("users-index", { users, users})
-      })
+    const page = req.query.page || 1
+    User.paginate({}, {page: page})
+      .then((results) => {
+        res.render('users-index', { users: results.docs, pagesCount: results.pages, currentPage: page });
+  })
       .catch(err => {
         console.log(err)
       })
+  })
+
+  app.get("/users/search", (req, res) => {
+    term = new RegExp(req.query.term, "i")
+
+    User.find({"name": term})
+      .exec((err, users) => {
+        res.render("users-index", { users })
+      })
+
   })
 
   // HTTP Action: New
