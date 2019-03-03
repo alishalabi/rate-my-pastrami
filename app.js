@@ -1,3 +1,6 @@
+// Allow Hidden Leys
+require("dotenv").config()
+
 // Middleware
 const express = require("express")
 const http = require("http")
@@ -6,6 +9,8 @@ const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
 const yelp = require("yelp-fusion")
 const client = yelp.client("YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx")
+const nodemailer = require("nodemailer");
+const mg = require("nodemailer-mailgun-transport");
 
 // Starting up express
 const app = express()
@@ -16,15 +21,6 @@ const mongoose = require("mongoose")
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/rate-my-pastrami")
 
 
-
-
-
-// var yelp = new Yelp({
-//   consumer_key: "YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx"
-//   consumer_secret: "pkClYmkwqzFdCbvKB6Y0nA"
-//   // token:
-//   // token_secret:
-// })
 
 const timesHelper = function(n, block) {
                          let accum = "";
@@ -40,6 +36,15 @@ const hbs = exphbs.create({
   }
 })
 
+const mailAuth = {
+  auth: {
+    api_key: '',
+    domain: 'ratemypastrami.com'
+  }
+}
+
+const nodemailerMailgun = = nodemailer.createTransport(mg(mailAuth))
+
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -47,6 +52,7 @@ app.use(methodOverride("_method"))
 
 //Controllers
 const users = require("./controllers/users")(app)
+const newsletter = require("./controllers/newsletter")(app)
 
 // // Welcome image
 // app.get("/", (req, res) =>{
