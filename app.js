@@ -9,8 +9,8 @@ const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
 const yelp = require("yelp-fusion")
 const client = yelp.client("YoETtuuDdq_-aGWyTvzQAO1aM8Up4L-NoHaWI39BphK_hFJtM2n0Jyfbtm0aUNkNGDCJLirNlYo4L71WlC--Cg-wCrnCGpNArNMRwBEuws7cGNKQd4Ie6_400vvEW3Yx")
-const nodemailer = require("nodemailer");
-const mg = require("nodemailer-mailgun-transport");
+const helper = require("handlebars-helpers")()
+
 
 // Starting up express
 const app = express()
@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/rate-my-pastram
 
 const timesHelper = function(n, block) {
                          let accum = "";
-                         for(var i = 0; i < n; ++i)
+                         for(var i = 1; i <= n; ++i)
                            accum += block.fn(i);
                          return accum;
                        };
@@ -36,14 +36,16 @@ const hbs = exphbs.create({
   }
 })
 
-const mailAuth = {
-  auth: {
-    api_key: '',
-    domain: 'ratemypastrami.com'
-  }
+
+
+// Sample newsletter recipient to test mailgun
+const user = {
+  email: "ali.shalabi@students.makeschool.com",
+  name: 'Ali Baba',
+  bio: 'Loves Pastrami!'
 }
 
-const nodemailerMailgun = = nodemailer.createTransport(mg(mailAuth))
+
 
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
@@ -54,6 +56,24 @@ app.use(methodOverride("_method"))
 const users = require("./controllers/users")(app)
 const newsletter = require("./controllers/newsletter")(app)
 
+
+// nodemailerMailgun.sendMail({
+//   from: 'no-reply@ratemypastrami.com',
+//   to: user.email, // An array if you have multiple recipients.
+//   subject: 'The Daily Pickle',
+//   template: {
+//     // TODO: clean up path fpr email.handlebars (put in views)
+//     name: 'email.handlebars',
+//     engine: 'handlebars',
+//     context: user
+//   }
+// })
+// .then(info => {
+//   console.log('Response: ' + info);
+// })
+// .catch(err => {
+//   console.log('Error: ' + err);
+// })
 // // Welcome image
 // app.get("/", (req, res) =>{
 //   var picUrl = "https://jbf-media.s3.amazonaws.com/production/recipe/2017/8/29/Original_19_Hot_Pastrami_Sandwich_00076%20copy.jpg"

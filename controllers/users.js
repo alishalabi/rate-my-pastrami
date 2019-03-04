@@ -15,6 +15,7 @@ module.exports = function (app) {
     const page = req.query.page || 1
     User.paginate({}, {page: page})
       .then((results) => {
+        // var i = 1
         res.render('users-index', { users: results.docs, pagesCount: results.pages, currentPage: page });
   })
       .catch(err => {
