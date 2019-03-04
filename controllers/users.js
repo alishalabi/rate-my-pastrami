@@ -28,7 +28,7 @@ module.exports = function (app) {
 
     User.find({"name": term})
       .exec((err, users) => {
-        res.render("users-index", { users })
+        res.render("users-search", { users })
       })
 
   })

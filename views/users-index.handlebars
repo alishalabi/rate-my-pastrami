@@ -20,7 +20,7 @@
 
 <div class="page-index" style="display:inline-block;margin-top:200px;">
   {{#is currentPage 1}}
-    <p style="display: none;">Hello</p>
+    <!-- <p style="display: none;">Hello</p> -->
   {{else}}
     <a href="/users/?page={{subtract currentPage 1}}">Previous</a>
   {{/is}}
@@ -33,6 +33,4 @@
   {{else}}
     <a href="/users/?page={{sum currentPage 1}}">Next</a>
   {{/is}}
-
-
 </div>
