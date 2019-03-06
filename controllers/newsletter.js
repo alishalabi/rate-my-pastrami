@@ -16,7 +16,8 @@ module.exports = function (app) {
     res.render("newsletter")
   })
 
-  app.get("/newsletter-confirmation", (req, res) => {
+  app.post("/newsletter-confirmation", (req, res) => {
+    console.log(req.body)
     nodemailerMailgun.sendMail({
       from: 'no-reply@example.com',
       to: 'ali.shalabi@students.makeschool.com', // An array if you have multiple recipients.
@@ -29,11 +30,11 @@ module.exports = function (app) {
       })
       .then(info => {
         console.log('Response: ' + info);
-        res.redirect("newsletter-confirmation");
+        res.render("newsletter-confirmation");
       })
       .catch(err => {
         console.log('Error: ' + err);
-        res.redirect("newsletter-confirmation");
+        res.redirect("/newsletter");
       })
 
       .catch(err => {
